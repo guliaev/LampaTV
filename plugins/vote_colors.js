@@ -3,6 +3,54 @@
 
     Lampa.Platform.tv();
 
+    const SETTING_KEY = 'color_ratings_enabled';
+
+    /**
+     * Текущее состояние флага «цветные рейтинги».
+     * В хранилище лежит строка 'true' / 'false'.
+     */
+    function isColorsEnabled() {
+        const stored = Lampa.Storage.get(SETTING_KEY, 'true');
+        return stored === 'true';
+    }
+
+    /**
+     * Зарегистрировать пункт в настройках (пример).
+     * Если API в твоей сборке отличается, адаптируй объект под свою Lampa.
+     */
+    function registerSetting() {
+        if (!Lampa.Settings || !Lampa.Settings.add) return;
+
+        Lampa.Settings.add({
+            // отображаемое имя
+            title: 'Цветные рейтинги',
+            // в каком разделе показывать (часто используют 'plugins' или 'parser')
+            component: 'plugins',
+            // внутреннее имя настройки
+            name: 'color_ratings_enabled',
+            // произвольная категория/группа
+            category: 'interface',
+            // тип — переключатель / список, зависит от реализации Settings
+            type: 'toggle',
+            values: [
+                { title: 'Включено',  value: 'true'  },
+                { title: 'Выключено', value: 'false' }
+            ],
+            default: 'true',
+            onChange: function (value) {
+                // сохраняем флаг
+                Lampa.Storage.set(SETTING_KEY, value);
+                // тут можно добавить Lampa.Noty.show('Перезапустите Lampa для применения');
+            }
+        });
+
+        // чтобы изменения отобразились в UI
+        if (Lampa.Settings.update) Lampa.Settings.update();
+    }
+
+    /**
+     * Вставка CSS со значками рейтингов и базовыми стилями.
+     */
     function injectStyles() {
         const style = document.createElement('style');
         style.type = 'text/css';
@@ -33,28 +81,34 @@ ${baseSelectors} {
     }
 }
 
+/* подпись источника рейтинга рядом с иконкой */
 .full-start__rate .source--name {
     margin-left: 6px;
     font-size: 0;
 }
 
-/* тут подставь свои URI как раньше */
+/* сюда подставь свои реальные image/svg+xml,... из исходника */
+
+/* Твой логотип / кастомный источник */
 .rate--lampa .source--name,
 .rate--bylampa .source--name,
 .rate--cub .source--name {
-    background-image: url("image/svg+xml;..."); 
+    background-image: url("image/svg+xml,...");
 }
 
+/* Иконка IMDb */
 .rate--imdb > div:last-child {
-    background-image: url("image/svg+xml;...");
+    background-image: url("image/svg+xml,...");
 }
 
+/* Иконка КиноПоиск */
 .rate--kp > div:last-child {
-    background-image: url("image/svg+xml;...");
+    background-image: url("image/svg+xml,...");
 }
 
+/* Иконка TMDB */
 .rate--tmdb .source--name {
-    background-image: url("image/svg+xml;...");
+    background-image: url("image/svg+xml,...");
 }
         `.trim();
 
@@ -67,6 +121,9 @@ ${baseSelectors} {
         document.head.appendChild(style);
     }
 
+    /**
+     * Возвращает цвет текста по значению рейтинга.
+     */
     function getRatingColor(value) {
         if (isNaN(value)) return '';
 
@@ -79,21 +136,33 @@ ${baseSelectors} {
         return '';
     }
 
+    /**
+     * Красит все найденные элементы рейтингов.
+     */
     function updateRatingsColors() {
+        if (!isColorsEnabled()) return;
+
         const cardVotes = document.querySelectorAll('.card__vote');
-        const fullVotes = document.querySelectorAll('.full-start__rate > div:last-child, .info__rate > span');
+        const fullVotes = document.querySelectorAll(
+            '.full-start__rate > div:last-child, .info__rate > span'
+        );
 
         const paintNode = (node) => {
             const text = (node.textContent || '').trim();
             const value = parseFloat(text);
             const color = getRatingColor(value);
-            if (color) node.style.color = color;
+            if (color) {
+                node.style.color = color;
+            }
         };
 
         cardVotes.forEach(paintNode);
         fullVotes.forEach(paintNode);
     }
 
+    /**
+     * Наблюдатель за DOM — обновляет цвета на динамически добавленных карточках.
+     */
     function observeDom() {
         const observer = new MutationObserver(() => {
             updateRatingsColors();
@@ -105,19 +174,18 @@ ${baseSelectors} {
         });
     }
 
+    /**
+     * Основная инициализация.
+     */
     function init() {
+        registerSetting(); // просто регистрирует пункт в настройках
+
+        // если пользователь выключил — ничего не делаем
+        if (!isColorsEnabled()) return;
+
         injectStyles();
         setTimeout(updateRatingsColors, 500);
         observeDom();
     }
 
-    if (window.appready) {
-        init();
-    } else {
-        Lampa.Listener.follow('appready', (event) => {
-            if (event.type === 'ready') {
-                init();
-            }
-        });
-    }
-})();
+    if
