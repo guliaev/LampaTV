@@ -262,12 +262,12 @@
         if (!Lampa.Lang) return;
 
         Lampa.Lang.add({
-            rus_mod_plugin_name: { ru: 'TMDB_RUS (русские подборки)' },
-            rus_mod_toggle_name: { ru: 'Включить TMDB_RUS (авто переключение)' },
+            rus_mod_plugin_name: { ru: 'TMDB (Русские подборки)' },
+            rus_mod_toggle_name: { ru: 'Включить TMDB_RUS' },
             rus_mod_toggle_desc: { 
                 ru: 'ВКЛ: автоматически выберет TMDB_RUS\nВЫКЛ: вернётся на обычный TMDB' 
             },
-            rus_mod_noty_reload: { ru: 'Источник переключён автоматически!' },
+            rus_mod_noty_reload: { ru: 'Перезагрузите главную страницу!' },
             rus_mod_show_collection: { ru: 'Показывать подборку' },
 
             rus_mod_c_now_playing:   { ru: 'Сейчас в кино' },
@@ -485,7 +485,7 @@
                     : {};
 
                 if (!sources.tmdb_rus) {
-                    sources.tmdb_rus = 'TMDB_RUS';
+                    sources.tmdb_rus = 'TMDB (Русские подборки)';
                     var current = Lampa.Storage.get('source', 'tmdb');
                     Lampa.Params.select('source', sources, current);
                 }
