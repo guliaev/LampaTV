@@ -151,58 +151,66 @@
         };
     }
 
-    // --- ГАРД ОТ ПОВТОРНОГО ЗАПУСКА ---
-    if (window.plugin_rus_mod_ready) return;
-    window.plugin_rus_mod_ready = true;
+    // --- ГАРД ---
+    if (window.plugin_tmdb_rus_ready) return;
+    window.plugin_tmdb_rus_ready = true;
 
     var today = new Date().toISOString().substr(0, 10);
 
-    // КОНФИГ КОЛЛЕКЦИЙ (в стиле TMDB_MOD)
+    // --- КОНФИГ КОЛЛЕКЦИЙ ДЛЯ TMDB_RUS ---
+
     var collectionsConfig = [
-        { id: 'now_playing_movies', emoji: '🎞', name_key: 'rus_mod_c_now_playing', request: 'movie/now_playing' },
-        { id: 'trending_all_day',   emoji: '📈', name_key: 'rus_mod_c_trend_day',   request: 'trending/all/day' },
-        { id: 'trending_all_week',  emoji: '📊', name_key: 'rus_mod_c_trend_week',  request: 'trending/all/week' },
-        { id: 'popular_movies',     emoji: '⭐', name_key: 'rus_mod_c_popular_movie',request: 'movie/popular' },
-        { id: 'popular_tv',         emoji: '📺', name_key: 'rus_mod_c_popular_tv',  request: 'trending/tv/week' },
+        // Общие подборки
+        { id: 'now_playing_movies', emoji: '🎞', name_key: 'rus_mod_c_now_playing',   request: 'movie/now_playing' },
+        { id: 'trending_all_day',   emoji: '📈', name_key: 'rus_mod_c_trend_day',     request: 'trending/all/day' },
+        { id: 'trending_all_week',  emoji: '📊', name_key: 'rus_mod_c_trend_week',    request: 'trending/all/week' },
+        { id: 'popular_movies',     emoji: '⭐',  name_key: 'rus_mod_c_popular_movie', request: 'movie/popular' },
+        { id: 'popular_tv',         emoji: '📺', name_key: 'rus_mod_c_popular_tv',    request: 'trending/tv/week' },
 
-        { id: 'timetable_upcoming', emoji: '⏰', name_key: 'rus_mod_c_timetable', special: 'timetable' },
+        // Локальная подборка по TimeTable
+        { id: 'timetable_upcoming', emoji: '⏰', name_key: 'rus_mod_c_timetable',     special: 'timetable' },
 
+        // Русские фильмы
         { id: 'rus_movies_new', emoji: '🎬', name_key: 'rus_mod_c_rus_movies_new',
-          request: 'discover/movie?vote_average.gte=5&vote_average.lte=9.5&with_original_language=ru' +
-                   '&sort_by=primary_release_date.desc&primary_release_date.lte=' + today },
+          request: 'discover/movie?vote_average.gte=5&vote_average.lte=9.5' +
+                   '&with_original_language=ru' +
+                   '&sort_by=primary_release_date.desc' +
+                   '&primary_release_date.lte=' + today },
 
         { id: 'rus_cartoons',   emoji: '🐻', name_key: 'rus_mod_c_rus_cartoons',
           request: 'discover/movie?vote_average.gte=5&vote_average.lte=9.5&with_genres=16' +
                    '&with_original_language=ru&primary_release_date.lte=' + today },
 
-        { id: 'rus_tv_all',     emoji: '📺', name_key: 'rus_mod_c_rus_tv_all',
+        // Русские сериалы
+        { id: 'rus_tv_all', emoji: '📺', name_key: 'rus_mod_c_rus_tv_all',
           request: 'discover/tv?with_original_language=ru&sort_by=first_air_date.desc&air_date.lte=' + today },
 
-        { id: 'start_platform',   emoji: '⭐', name_key: 'rus_mod_c_start',
+        // Платформы
+        { id: 'start_platform',   emoji: '⭐',  name_key: 'rus_mod_c_start',
           request: 'discover/tv?with_networks=5806&sort_by=first_air_date.desc&air_date.lte=' + today },
 
-        { id: 'okko_platform',    emoji: '⭕', name_key: 'rus_mod_c_okko',
+        { id: 'okko_platform',    emoji: '⭕',  name_key: 'rus_mod_c_okko',
           request: 'discover/tv?with_networks=3871&sort_by=first_air_date.desc&air_date.lte=' + today },
 
-        { id: 'premier_platform', emoji: '🎭', name_key: 'rus_mod_c_premier',
+        { id: 'premier_platform', emoji: '🎭',  name_key: 'rus_mod_c_premier',
           request: 'discover/tv?with_networks=2859&sort_by=first_air_date.desc&air_date.lte=' + today },
 
-        { id: 'wink_platform',    emoji: '📡', name_key: 'rus_mod_c_wink',
+        { id: 'wink_platform',    emoji: '📡',  name_key: 'rus_mod_c_wink',
           request: 'discover/tv?with_networks=2493&sort_by=first_air_date.desc&air_date.lte=' + today },
 
-        { id: 'kion_platform',    emoji: '🎞', name_key: 'rus_mod_c_kion',
+        { id: 'kion_platform',    emoji: '🎞',  name_key: 'rus_mod_c_kion',
           request: 'discover/tv?with_networks=4085&sort_by=first_air_date.desc&air_date.lte=' + today },
 
-        { id: 'ivi_platform',     emoji: '🍿', name_key: 'rus_mod_c_ivi',
+        { id: 'ivi_platform',     emoji: '🍿',  name_key: 'rus_mod_c_ivi',
           request: 'discover/tv?with_networks=3923&sort_by=first_air_date.desc&air_date.lte=' + today },
 
         { id: 'kinopoisk_platform', emoji: '🎬', name_key: 'rus_mod_c_kinopoisk',
           request: 'discover/tv?with_networks=3827&sort_by=first_air_date.desc&air_date.lte=' + today },
 
-        { id: 'cts_platform',     emoji: '📺', name_key: 'rus_mod_c_cts',
+        { id: 'cts_platform',     emoji: '📺',  name_key: 'rus_mod_c_cts',
           request: 'discover/tv?with_networks=806&sort_by=first_air_date.desc&air_date.lte=' + today },
 
-        { id: 'tnt_platform',     emoji: '🔥', name_key: 'rus_mod_c_tnt',
+        { id: 'tnt_platform',     emoji: '🔥',  name_key: 'rus_mod_c_tnt',
           request: 'discover/tv?with_networks=1191&sort_by=first_air_date.desc&air_date.lte=' + today }
     ];
 
@@ -218,10 +226,10 @@
     function loadSettings() {
         if (!Lampa.Storage) return pluginSettings;
 
-        pluginSettings.enabled = Lampa.Storage.get('rus_mod_enabled', true);
+        pluginSettings.enabled = Lampa.Storage.get('tmdb_rus_enabled', true);
 
         collectionsConfig.forEach(function (cfg) {
-            var key = 'rus_mod_collection_' + cfg.id;
+            var key = 'tmdb_rus_collection_' + cfg.id;
             pluginSettings.collections[cfg.id] = Lampa.Storage.get(key, true);
         });
 
@@ -231,27 +239,27 @@
     function saveSettings() {
         if (!Lampa.Storage) return;
 
-        Lampa.Storage.set('rus_mod_enabled', pluginSettings.enabled);
+        Lampa.Storage.set('tmdb_rus_enabled', pluginSettings.enabled);
 
         collectionsConfig.forEach(function (cfg) {
-            var key = 'rus_mod_collection_' + cfg.id;
+            var key = 'tmdb_rus_collection_' + cfg.id;
             Lampa.Storage.set(key, pluginSettings.collections[cfg.id]);
         });
     }
 
-    // Переводы (по аналогии с TMDB_MOD)
     function addTranslations() {
         if (!Lampa.Lang) return;
 
         Lampa.Lang.add({
+            // Общие
             rus_mod_plugin_name: {
-                ru: 'Русские подборки TMDB'
+                ru: 'TMDB_RUS (русские подборки)'
             },
             rus_mod_toggle_name: {
-                ru: 'Включить русские подборки на главной'
+                ru: 'Включить TMDB_RUS подборки'
             },
             rus_mod_toggle_desc: {
-                ru: 'Показывать русские и популярные подборки на главной (источник TMDB)'
+                ru: 'Показывать русские и популярные подборки на главной для источника TMDB_RUS'
             },
             rus_mod_noty_reload: {
                 ru: 'Перезагрузите главную страницу, чтобы применить изменения'
@@ -260,6 +268,7 @@
                 ru: 'Показывать подборку'
             },
 
+            // Общие подборки
             rus_mod_c_now_playing:   { ru: 'Сейчас в кино' },
             rus_mod_c_trend_day:     { ru: 'Тренды за день' },
             rus_mod_c_trend_week:    { ru: 'Тренды за неделю' },
@@ -267,10 +276,12 @@
             rus_mod_c_popular_tv:    { ru: 'Популярные сериалы' },
             rus_mod_c_timetable:     { ru: 'Скоро в онлайне (расписание)' },
 
+            // Русский контент
             rus_mod_c_rus_movies_new:{ ru: 'Новинки русского кино' },
             rus_mod_c_rus_cartoons:  { ru: 'Русские мультфильмы' },
             rus_mod_c_rus_tv_all:    { ru: 'Русские сериалы' },
 
+            // Платформы
             rus_mod_c_start:     { ru: 'START Originals' },
             rus_mod_c_okko:      { ru: 'OKKO Originals' },
             rus_mod_c_premier:   { ru: 'Premier Originals' },
@@ -283,8 +294,8 @@
         });
     }
 
-    // main для главной
-    function createRusDiscoveryMain(parent) {
+    // main для главной TMDB_RUS
+    function createRusDiscoveryMain(parentSource) {
         return function () {
             var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
             var oncomplete = arguments.length > 1 ? arguments[1] : undefined;
@@ -312,6 +323,7 @@
             var loaders = [];
 
             active.forEach(function (cfg) {
+                // локальная подборка по TimeTable
                 if (cfg.special === 'timetable') {
                     loaders.push(function (call) {
                         var title = Lampa.Lang.translate(cfg.name_key);
@@ -332,8 +344,9 @@
                     return;
                 }
 
+                // обычный TMDB-запрос
                 loaders.push(function (call) {
-                    parent.get(cfg.request, params, function (json) {
+                    parentSource.get(cfg.request, params, function (json) {
                         var title = Lampa.Lang.translate(cfg.name_key);
                         json.title = cfg.emoji ? cfg.emoji + ' ' + title : title;
 
@@ -360,25 +373,27 @@
         };
     }
 
-    // Настройки
+    // Страница настроек TMDB_RUS
     function addSettingsPage() {
         loadSettings();
 
         if (!Lampa.SettingsApi) return;
 
         Lampa.SettingsApi.addComponent({
-            component: 'rus_mod',
+            component: 'tmdb_rus',
             name: Lampa.Lang.translate('rus_mod_plugin_name'),
-            icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"' +
-                  ' viewBox="0 0 24 24" fill="none" stroke="currentColor"' +
-                  ' stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-                  '<rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect>' +
-                  '<polyline points="17 2 12 7 7 2"></polyline></svg>'
+            icon:
+                '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" ' +
+                'viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+                'stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+                '<rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect>' +
+                '<polyline points="17 2 12 7 7 2"></polyline></svg>'
         });
 
+        // Главный триггер
         Lampa.SettingsApi.addParam({
-            component: 'rus_mod',
-            param: { name: 'rus_mod_enabled', type: 'trigger', default: true },
+            component: 'tmdb_rus',
+            param: { name: 'tmdb_rus_enabled', type: 'trigger', default: true },
             field: {
                 name: Lampa.Lang.translate('rus_mod_toggle_name'),
                 description: Lampa.Lang.translate('rus_mod_toggle_desc')
@@ -390,20 +405,23 @@
             }
         });
 
+        // Переключатели по коллекциям
         collectionsConfig.forEach(function (cfg) {
             var name = Lampa.Lang.translate(cfg.name_key);
             var fullName = cfg.emoji ? cfg.emoji + ' ' + name : name;
 
             Lampa.SettingsApi.addParam({
-                component: 'rus_mod',
+                component: 'tmdb_rus',
                 param: {
-                    name: 'rus_mod_collection_' + cfg.id,
+                    name: 'tmdb_rus_collection_' + cfg.id,
                     type: 'trigger',
                     default: true
                 },
                 field: {
                     name: fullName,
-                    description: Lampa.Lang.translate('rus_mod_show_collection') + ' "' + name + '"'
+                    description:
+                        Lampa.Lang.translate('rus_mod_show_collection') +
+                        ' "' + name + '"'
                 },
                 onChange: function (val) {
                     pluginSettings.collections[cfg.id] = val;
@@ -415,16 +433,16 @@
 
         if (Lampa.Settings && Lampa.Settings.listener) {
             Lampa.Settings.listener.follow('open', function (e) {
-                if (e.name !== 'rus_mod') return;
+                if (e.name !== 'tmdb_rus') return;
 
                 setTimeout(function () {
-                    var els = document.querySelectorAll('[data-name="rus_mod_enabled"]');
+                    var els = document.querySelectorAll('[data-name="tmdb_rus_enabled"]');
                     Array.prototype.forEach.call(els, function (el) {
                         if (el.type === 'checkbox') el.checked = pluginSettings.enabled;
                     });
 
                     collectionsConfig.forEach(function (cfg) {
-                        var q = '[data-name="rus_mod_collection_' + cfg.id + '"]';
+                        var q = '[data-name="tmdb_rus_collection_' + cfg.id + '"]';
                         var list = document.querySelectorAll(q);
                         Array.prototype.forEach.call(list, function (el) {
                             if (el.type === 'checkbox') {
@@ -437,41 +455,55 @@
         }
     }
 
-    // Инициализация: обёртка над tmdb.main с проверкой Manifest.app.source === 'tmdb'
+    // Инициализация: создаём отдельный источник tmdb_rus, как tmdb_mod в TMDB_MOD
     function initPlugin() {
         if (!Lampa.Api || !Lampa.Api.sources || !Lampa.Api.sources.tmdb) return false;
 
-        var tmdbSource = Lampa.Api.sources.tmdb;
-        if (!tmdbSource || !tmdbSource.main) return false;
+        var originalTMDB = Lampa.Api.sources.tmdb;
+        if (!originalTMDB || !originalTMDB.main) return false;
 
-        var originalMain = tmdbSource.main;
+        var tmdb_rus = Object.assign({}, originalTMDB);
+        Lampa.Api.sources.tmdb_rus = tmdb_rus;
 
-        tmdbSource.main = function () {
+        // на всякий случай — геттер, как в tmdb_mod
+        try {
+            Object.defineProperty(Lampa.Api.sources, 'tmdb_rus', {
+                get: function get() { return tmdb_rus; }
+            });
+        } catch (e) {}
+
+        var originalMain = originalTMDB.main;
+
+        tmdb_rus.main = function () {
             var args = Array.prototype.slice.call(arguments);
-            var settings = loadSettings();
 
-            // Не трогаем разделы "Фильмы"/"Сериалы"
-            if (this.type === 'movie' || this.type === 'tv') {
-                return originalMain.apply(this, args);
+            // если плагин включён и это не раздел movie/tv → даём свои подборки
+            if (loadSettings().enabled && this.type !== 'movie' && this.type !== 'tv') {
+                return createRusDiscoveryMain(tmdb_rus).apply(this, args);
             }
 
-            // Жёсткая проверка: основной источник должен быть TMDB
-            if (!Lampa.Manifest || !Lampa.Manifest.app ||
-                Lampa.Manifest.app.source !== 'tmdb') {
-                return originalMain.apply(this, args);
-            }
-
-            if (!settings.enabled) {
-                return originalMain.apply(this, args);
-            }
-
-            return createRusDiscoveryMain(tmdbSource).apply(this, args);
+            // иначе стандартный main TMDB
+            return originalMain.apply(this, args);
         };
+
+        // Добавляем TMDB_RUS в список источников (Настройки → Остальное → Источник)
+        if (Lampa.Params && Lampa.Params.select) {
+            try {
+                var sources = (Lampa.Params.values && Lampa.Params.values.source) ?
+                    Lampa.Params.values.source : {};
+
+                if (!sources.tmdb_rus) {
+                    sources.tmdb_rus = 'TMDB_RUS';
+                    // по умолчанию оставляем tmdb, чтобы не ломать текущую настройку
+                    Lampa.Params.select('source', sources, 'tmdb');
+                }
+            } catch (e) {}
+        }
 
         return true;
     }
 
-    // Ожидание готовности Lampa (как в TMDB_MOD)
+    // Ожидание готовности Lampa
     function waitForApp() {
         function onReady() {
             addTranslations();
@@ -483,9 +515,7 @@
             onReady();
         } else if (Lampa.Listener && typeof Lampa.Listener.follow === 'function') {
             Lampa.Listener.follow('app', function (e) {
-                if (e.type === 'ready') {
-                    onReady();
-                }
+                if (e.type === 'ready') onReady();
             });
         } else {
             setTimeout(waitForApp, 1000);
