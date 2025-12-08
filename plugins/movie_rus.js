@@ -214,7 +214,7 @@
           request: 'discover/tv?with_networks=1191&sort_by=first_air_date.desc&air_date.lte=' + today }
     ];
 
-    // Настройки
+    // Настройки для TMDB_RUS
     var pluginSettings = {
         enabled: true,
         collections: collectionsConfig.reduce(function (acc, c) {
@@ -455,17 +455,17 @@
         }
     }
 
-    // Инициализация: создаём отдельный источник tmdb_rus, как tmdb_mod в TMDB_MOD
+    // Инициализация: отдельный источник tmdb_rus (по аналогии с tmdb_mod)
     function initPlugin() {
         if (!Lampa.Api || !Lampa.Api.sources || !Lampa.Api.sources.tmdb) return false;
 
         var originalTMDB = Lampa.Api.sources.tmdb;
         if (!originalTMDB || !originalTMDB.main) return false;
 
+        // Клон tmdb -> tmdb_rus
         var tmdb_rus = Object.assign({}, originalTMDB);
         Lampa.Api.sources.tmdb_rus = tmdb_rus;
 
-        // на всякий случай — геттер, как в tmdb_mod
         try {
             Object.defineProperty(Lampa.Api.sources, 'tmdb_rus', {
                 get: function get() { return tmdb_rus; }
@@ -477,25 +477,27 @@
         tmdb_rus.main = function () {
             var args = Array.prototype.slice.call(arguments);
 
-            // если плагин включён и это не раздел movie/tv → даём свои подборки
+            // если включен и это не раздел movie/tv, рендерим свои подборки
             if (loadSettings().enabled && this.type !== 'movie' && this.type !== 'tv') {
                 return createRusDiscoveryMain(tmdb_rus).apply(this, args);
             }
 
-            // иначе стандартный main TMDB
+            // иначе стандартный TMDB main
             return originalMain.apply(this, args);
         };
 
-        // Добавляем TMDB_RUS в список источников (Настройки → Остальное → Источник)
+        // Добавляем TMDB_RUS в список источников
         if (Lampa.Params && Lampa.Params.select) {
             try {
-                var sources = (Lampa.Params.values && Lampa.Params.values.source) ?
-                    Lampa.Params.values.source : {};
+                var sources = (Lampa.Params.values && Lampa.Params.values.source)
+                    ? Lampa.Params.values.source
+                    : {};
 
                 if (!sources.tmdb_rus) {
                     sources.tmdb_rus = 'TMDB_RUS';
-                    // по умолчанию оставляем tmdb, чтобы не ломать текущую настройку
-                    Lampa.Params.select('source', sources, 'tmdb');
+                    // по умолчанию оставляем текущий источник, если он есть
+                    var current = (Lampa.Params && Lampa.Params.source) ? Lampa.Params.source : 'tmdb';
+                    Lampa.Params.select('source', sources, current);
                 }
             } catch (e) {}
         }
