@@ -206,7 +206,7 @@
         // --- Жанры и страны (фильмы) ---
         { 
             id: 'animation', 
-            emoji: '🇷🇺', 
+            emoji: '🧸', 
             name_key: 'tmdb_mod_c_animation', 
             request: 'discover/movie?with_genres=16&sort_by=popularity.desc&vote_average.gte=7&vote_count.gte=500' 
         },
@@ -214,7 +214,7 @@
         // 🎞 Современные российские мультфильмы и мультсериалы (единая подборка по фильмам)
         { 
             id: 'ru_modern_animation_all', 
-            emoji: '🎞', 
+            emoji: '🇷🇺', 
             name_key: 'tmdb_mod_c_ru_modern_animation_all', 
             request: 'discover/movie?with_genres=16&with_original_language=ru&primary_release_date.gte=2000-01-01&primary_release_date.lte=' + today + '&sort_by=popularity.desc&vote_average.gte=6&vote_count.gte=20&region=RU'
         },
