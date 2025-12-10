@@ -219,12 +219,12 @@
             request: 'discover/movie?with_genres=16&with_original_language=ru&primary_release_date.gte=2000-01-01&primary_release_date.lte=' + today + '&sort_by=popularity.desc&vote_average.gte=6&vote_count.gte=20&region=RU'
         },
 
-        // 📼 Классические советские и российские мультфильмы (до 2000 года)
+        // 📼 Классические советские и российские мультфильмы и мультсериалы (до 2000 года, фильмы+сериалы)
         { 
-            id: 'ru_classic_animation', 
+            id: 'ru_classic_animation_all', 
             emoji: '📼', 
-            name_key: 'tmdb_mod_c_ru_classic_animation', 
-            request: 'discover/movie?with_genres=16&with_original_language=ru&primary_release_date.lte=1999-12-31&sort_by=popularity.desc&vote_count.gte=50&region=RU' 
+            name_key: 'tmdb_mod_c_ru_classic_animation_all', 
+            request: 'discover/movie?with_genres=16&with_original_language=ru&primary_release_date.lte=1999-12-31&sort_by=popularity.desc&vote_count.gte=10&region=RU'
         },
 
         // 😂 Популярные комедии на русском
@@ -233,14 +233,6 @@
             emoji: '😂', 
             name_key: 'tmdb_mod_c_ru_popular_comedy', 
             request: 'discover/movie?with_original_language=ru&with_genres=35&sort_by=popularity.desc&primary_release_date.lte=' + today + '&vote_average.gte=6&vote_count.gte=50&with_runtime.gte=70&region=RU' 
-        },
-
-        // 🧸 Семейное и детское для RU
-        { 
-            id: 'ru_family_kids', 
-            emoji: '🧸', 
-            name_key: 'tmdb_mod_c_ru_family_kids', 
-            request: 'discover/movie?with_genres=16|35|10751&with_original_language=ru&sort_by=popularity.desc&primary_release_date.lte=' + today + '&vote_average.gte=6&vote_count.gte=50&region=RU' 
         },
 
         { 
@@ -306,20 +298,12 @@
             request: 'discover/tv?with_original_language=ru&with_genres=35&sort_by=popularity.desc&first_air_date.lte=' + today + '&vote_average.gte=6.5&vote_count.gte=50&region=RU'
         },
 
-        // 🧸 Семейные и детские сериалы (RU)
-        {
-            id: 'ru_family_kids_tv',
-            emoji: '🧸',
-            name_key: 'tmdb_mod_c_ru_family_kids_tv',
-            request: 'discover/tv?with_original_language=ru&with_genres=16|35|10751&sort_by=popularity.desc&first_air_date.lte=' + today + '&vote_average.gte=6&vote_count.gte=20&region=RU'
-        },
-
-        // 📼 Классические советские и российские мультсериалы (до 2000)
+        // 📼 Классические советские и российские мультсериалы (для совместной классики можно оставить фильтры по 16 жанру)
         {
             id: 'ru_classic_animation_tv',
             emoji: '📼',
             name_key: 'tmdb_mod_c_ru_classic_animation_tv',
-            request: 'discover/tv?with_original_language=ru&with_genres=16&first_air_date.lte=1999-12-31&sort_by=popularity.desc&vote_count.gte=10&region=RU'
+            request: 'discover/tv?with_original_language=ru&with_genres=16&first_air_date.lte=1999-12-31&sort_by=popularity.desc&vote_count.gte=5&region=RU'
         },
         
         // --- 📺 Originals ---
@@ -404,9 +388,8 @@
             tmdb_mod_c_animation: { ru: "Лучшие мультфильмы" },
 
             tmdb_mod_c_ru_modern_animation_all: { ru: "Российские мультфильмы и мультсериалы" },
-            tmdb_mod_c_ru_classic_animation: { ru: "Классические советские и российские мультфильмы" },
+            tmdb_mod_c_ru_classic_animation_all: { ru: "Классические советские и российские мультфильмы и мультсериалы" },
             tmdb_mod_c_ru_popular_comedy: { ru: "Популярные комедии на русском" },
-            tmdb_mod_c_ru_family_kids: { ru: "Семейное и детское (RU)" },
 
             tmdb_mod_c_documentary: { ru: "Документальные фильмы" },
             tmdb_mod_c_rus_new: { ru: "Новинки русского кино" },
@@ -424,7 +407,6 @@
             tmdb_mod_c_ru_new_tv: { ru: "Новинки русских сериалов" },
 
             tmdb_mod_c_ru_popular_comedy_tv: { ru: "Популярные русские комедийные сериалы" },
-            tmdb_mod_c_ru_family_kids_tv:   { ru: "Семейные и детские сериалы (RU)" },
             tmdb_mod_c_ru_classic_animation_tv: { ru: "Классические советские и российские мультсериалы" },
 
             // --- Платформы ---
