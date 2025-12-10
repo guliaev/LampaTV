@@ -160,7 +160,7 @@
 
     /**
      * @name TMDB_MOD
-     * @version 1.2.3
+     * @version 1.2.4
      * @description Кастомные подборки для главной страницы Lampa.
      */
 
@@ -193,15 +193,67 @@
             request: 'trending/all/week' 
         },
 
-        { id: 'hot_new_releases', emoji: '🎬', name_key: 'tmdb_mod_c_hot_new', request: 'discover/movie?sort_by=primary_release_date.desc&with_release_type=4|5|6&primary_release_date.lte=' + today + '&vote_count.gte=50&vote_average.gte=6&with_runtime.gte=40&without_genres=99&region=RU' },
-        { id: 'trending_movies', emoji: '🔥', name_key: 'tmdb_mod_c_trend_movie', request: 'trending/movie/week' },
-        { id: 'fresh_online', emoji: '👀', name_key: 'tmdb_mod_c_watching_now', request: 'discover/movie?sort_by=popularity.desc&with_release_type=4|5|6&primary_release_date.lte=' + today + '&vote_count.gte=50&vote_average.gte=6&with_runtime.gte=40&without_genres=99&region=RU' },
-        { id: 'cult_cinema', emoji: '🍿', name_key: 'tmdb_mod_c_cult', request: 'discover/movie?primary_release_date.gte=1980-01-01&sort_by=popularity.desc&vote_average.gte=7&vote_count.gte=500' },
-        { id: 'top_10_studios_mix', emoji: '🏆', name_key: 'tmdb_mod_c_top_studios', request: 'discover/movie?with_companies=6194|33|4|306|5|12|8411|9195|2|7295&sort_by=popularity.desc&vote_average.gte=7.0&vote_count.gte=1000' },
+        // 🎬 Свежие премьеры фильмов (кинотеатральные/VoD)
+        { 
+            id: 'hot_new_releases', 
+            emoji: '🎬', 
+            name_key: 'tmdb_mod_c_hot_new', 
+            request: 'discover/movie?sort_by=primary_release_date.desc&with_release_type=4|5|6&primary_release_date.lte=' + today + '&vote_count.gte=50&vote_average.gte=6&with_runtime.gte=40&without_genres=99&region=RU' 
+        },
+
+        // 🆕 Новинки фильмов Netflix
+        { 
+            id: 'netflix_new_movies',
+            emoji: '🆕',
+            name_key: 'tmdb_mod_c_netflix_new_movies',
+            request: 'discover/movie?with_watch_providers=8&watch_region=RU&sort_by=primary_release_date.desc&primary_release_date.gte=' + lastYear + '-01-01&primary_release_date.lte=' + today + '&vote_count.gte=100&with_runtime.gte=40'
+        },
+
+        // 🔥 Трендовые фильмы недели
+        { 
+            id: 'trending_movies', 
+            emoji: '🔥', 
+            name_key: 'tmdb_mod_c_trend_movie', 
+            request: 'trending/movie/week' 
+        },
+
+        // 👀 Сейчас смотрят (фильмы онлайн)
+        { 
+            id: 'fresh_online', 
+            emoji: '👀', 
+            name_key: 'tmdb_mod_c_watching_now', 
+            request: 'discover/movie?sort_by=popularity.desc&with_release_type=4|5|6&primary_release_date.lte=' + today + '&vote_count.gte=50&vote_average.gte=6&with_runtime.gte=40&without_genres=99&region=RU' 
+        },
+
+        // 🍿 Популярные фильмы с 80-х
+        { 
+            id: 'cult_cinema', 
+            emoji: '🍿', 
+            name_key: 'tmdb_mod_c_cult', 
+            request: 'discover/movie?primary_release_date.gte=1980-01-01&sort_by=popularity.desc&vote_average.gte=7&vote_count.gte=500' 
+        },
+
+        // 🏆 Золотая десятка студий
+        { 
+            id: 'top_10_studios_mix', 
+            emoji: '🏆', 
+            name_key: 'tmdb_mod_c_top_studios', 
+            request: 'discover/movie?with_companies=6194|33|4|306|5|12|8411|9195|2|7295&sort_by=popularity.desc&vote_average.gte=7.0&vote_count.gte=1000' 
+        },
         
         // --- Динамические подборки по годам ---
-        { id: 'best_of_current_year_movies', emoji: '🌟', name_key: 'tmdb_mod_c_best_current_y', request: 'discover/movie?primary_release_year=' + currentYear + '&sort_by=vote_average.desc&vote_count.gte=300&region=RU' },
-        { id: 'best_of_last_year_movies', emoji: '🏆', name_key: 'tmdb_mod_c_best_last_y', request: 'discover/movie?primary_release_year=' + lastYear + '&sort_by=vote_average.desc&vote_count.gte=500&region=RU' },
+        { 
+            id: 'best_of_current_year_movies', 
+            emoji: '🌟', 
+            name_key: 'tmdb_mod_c_best_current_y', 
+            request: 'discover/movie?primary_release_year=' + currentYear + '&sort_by=vote_average.desc&vote_count.gte=300&region=RU' 
+        },
+        { 
+            id: 'best_of_last_year_movies', 
+            emoji: '🏆', 
+            name_key: 'tmdb_mod_c_best_last_y', 
+            request: 'discover/movie?primary_release_year=' + lastYear + '&sort_by=vote_average.desc&vote_count.gte=500&region=RU' 
+        },
         
         // --- Жанры и страны (фильмы) ---
         { 
@@ -211,7 +263,7 @@
             request: 'discover/movie?with_genres=16&sort_by=popularity.desc&vote_average.gte=7&vote_count.gte=500' 
         },
 
-        // 🎞 Современные российские мультфильмы и мультсериалы (единая подборка по фильмам)
+        // 🎞 Современные российские мультфильмы (единая подборка по фильмам)
         { 
             id: 'ru_modern_animation_all', 
             emoji: '🇷🇺', 
@@ -219,7 +271,7 @@
             request: 'discover/movie?with_genres=16&with_original_language=ru&primary_release_date.gte=2000-01-01&primary_release_date.lte=' + today + '&sort_by=popularity.desc&vote_average.gte=6&vote_count.gte=20&region=RU'
         },
 
-        // 📼 Классические советские и российские мультфильмы и мультсериалы (до 2000 года, фильмы+сериалы)
+        // 📼 Классические советские и российские мультфильмы и мультсериалы (до 2000 года, фильмы)
         { 
             id: 'ru_classic_animation_all', 
             emoji: '📼', 
@@ -235,6 +287,7 @@
             request: 'discover/movie?with_original_language=ru&with_genres=35&sort_by=popularity.desc&primary_release_date.lte=' + today + '&vote_average.gte=6&vote_count.gte=50&with_runtime.gte=70&region=RU' 
         },
 
+        // 🔬 Документальные фильмы
         { 
             id: 'documentary', 
             emoji: '🔬', 
@@ -242,6 +295,7 @@
             request: 'discover/movie?with_genres=99&sort_by=popularity.desc&vote_count.gte=20&with_translations=ru&include_translations=ru' 
         },
 
+        // 🇷🇺 Новинки русского кино
         { 
             id: 'russian_movies', 
             emoji: '🇷🇺', 
@@ -249,14 +303,60 @@
             request: 'discover/movie?with_original_language=ru&sort_by=primary_release_date.desc&with_release_type=4|5|6&primary_release_date.lte=' + today + '&with_runtime.gte=40&without_genres=99&region=RU' 
         },
 
+        // 🆕 Новинки русских сериалов (окно: прошлый год + текущий) — СРАЗУ после «Новинки русского кино»
+        {
+            id: 'ru_new_tv',
+            emoji: '🆕',
+            name_key: 'tmdb_mod_c_ru_new_tv',
+            request: 'discover/tv?with_original_language=ru&sort_by=first_air_date.desc&first_air_date.gte=' + lastYear + '-01-01&first_air_date.lte=' + today + '&vote_average.gte=5.5&vote_count.gte=5&region=RU'
+        },
+
+        // 🆕 Новинки российских ТВ-программ (шоу, ток-шоу, реалити)
+        {
+            id: 'ru_new_tv_programs',
+            emoji: '🆕',
+            name_key: 'tmdb_mod_c_ru_new_tv_programs',
+            request: 'discover/tv?with_original_language=ru&with_genres=10764|10767&sort_by=first_air_date.desc&first_air_date.gte=' + lastYear + '-01-01&first_air_date.lte=' + today + '&vote_average.gte=5.5&vote_count.gte=5&region=RU'
+        },
+
         //
         // 📺 --- СЕРИАЛЫ ---
         //
-        { id: 'trending_tv', emoji: '🔥', name_key: 'tmdb_mod_c_trend_tv', request: 'trending/tv/week' },
-        { id: 'best_world_series', emoji: '🌍', name_key: 'tmdb_mod_c_world_hits', request: 'discover/tv?with_origin_country=US|CA|GB|AU|IE|DE|FR|NL|SE|NO|DK|FI|ES|IT|BE|CH|AT|KR|JP|MX|BR&sort_by=last_air_date.desc&vote_average.gte=7&vote_count.gte=500&first_air_date.gte=2020-01-01&first_air_date.lte=' + today + '&without_genres=16|99|10762|10763|10764|10766|10767|10768|10770&with_status=0|1|2|3' },
-        { id: 'netflix_best', emoji: '⚫', name_key: 'tmdb_mod_c_netflix', request: 'discover/tv?with_networks=213&sort_by=last_air_date.desc&first_air_date.gte=2020-01-01&last_air_date.lte=' + today + '&vote_count.gte=500&vote_average.gte=7&without_genres=16|99|10751|10762|10763|10764|10766|10767|10768|10770' },
+        { 
+            id: 'trending_tv', 
+            emoji: '🔥', 
+            name_key: 'tmdb_mod_c_trend_tv', 
+            request: 'trending/tv/week' 
+        },
+
+        { 
+            id: 'best_world_series', 
+            emoji: '🌍', 
+            name_key: 'tmdb_mod_c_world_hits', 
+            request: 'discover/tv?with_origin_country=US|CA|GB|AU|IE|DE|FR|NL|SE|NO|DK|FI|ES|IT|BE|CH|AT|KR|JP|MX|BR&sort_by=last_air_date.desc&vote_average.gte=7&vote_count.gte=500&first_air_date.gte=2020-01-01&first_air_date.lte=' + today + '&without_genres=16|99|10762|10763|10764|10766|10767|10768|10770&with_status=0|1|2|3' 
+        },
+
+        // --- Netflix ---
+        { 
+            id: 'netflix_new_tv',
+            emoji: '🆕',
+            name_key: 'tmdb_mod_c_netflix_new_tv',
+            request: 'discover/tv?with_networks=213&sort_by=first_air_date.desc&first_air_date.gte=' + lastYear + '-01-01&first_air_date.lte=' + today + '&vote_count.gte=100&without_genres=16|99|10751|10762|10763|10764|10766|10767|10768|10770'
+        },
+
+        { 
+            id: 'netflix_best', 
+            emoji: '⚫', 
+            name_key: 'tmdb_mod_c_netflix', 
+            request: 'discover/tv?with_networks=213&sort_by=last_air_date.desc&first_air_date.gte=2020-01-01&last_air_date.lte=' + today + '&vote_count.gte=500&vote_average.gte=7&without_genres=16|99|10751|10762|10763|10764|10766|10767|10768|10770' 
+        },
         
-        { id: 'miniseries_hits', emoji: '💎', name_key: 'tmdb_mod_c_miniseries', request: 'discover/tv?with_type=2&sort_by=popularity.desc&vote_average.gte=7.0&vote_count.gte=200&without_genres=10764,10767' },
+        { 
+            id: 'miniseries_hits', 
+            emoji: '💎', 
+            name_key: 'tmdb_mod_c_miniseries', 
+            request: 'discover/tv?with_type=2&sort_by=popularity.desc&vote_average.gte=7.0&vote_count.gte=200&without_genres=10764,10767' 
+        },
 
         // 🇷🇺 Популярные сериалы из России (2020+)
         { 
@@ -264,14 +364,6 @@
             emoji: '🇷🇺', 
             name_key: 'tmdb_mod_c_rus_series', 
             request: 'discover/tv?with_original_language=ru&sort_by=last_air_date.desc&first_air_date.gte=2020-01-01&first_air_date.lte=' + today + '&vote_average.gte=6&vote_count.gte=5&without_genres=16|99|10751|10762|10763|10764|10766|10767|10768' 
-        },
-
-        // 📺 Российские ТВ-программы (шоу, ток-шоу, реалити)
-        {
-            id: 'ru_tv_programs',
-            emoji: '📺',
-            name_key: 'tmdb_mod_c_ru_tv_programs',
-            request: 'discover/tv?with_original_language=ru&with_genres=10764|10767&sort_by=popularity.desc&first_air_date.lte=' + today + '&vote_average.gte=5.5&vote_count.gte=5&region=RU'
         },
 
         // 🌍 Популярные мировые ТВ-программы
@@ -282,23 +374,7 @@
             request: 'discover/tv?with_genres=10764|10767&sort_by=popularity.desc&first_air_date.lte=' + today + '&vote_average.gte=6&vote_count.gte=50'
         },
 
-        // 🆕 Новинки русских сериалов (окно: прошлый год + текущий)
-        {
-            id: 'ru_new_tv',
-            emoji: '🆕',
-            name_key: 'tmdb_mod_c_ru_new_tv',
-            request: 'discover/tv?with_original_language=ru&sort_by=first_air_date.desc&first_air_date.gte=' + lastYear + '-01-01&first_air_date.lte=' + today + '&vote_average.gte=5.5&vote_count.gte=5&region=RU'
-        },
-
-        // 😂 Популярные русские комедийные сериалы
-        {
-            id: 'ru_popular_comedy_tv',
-            emoji: '😂',
-            name_key: 'tmdb_mod_c_ru_popular_comedy_tv',
-            request: 'discover/tv?with_original_language=ru&with_genres=35&sort_by=popularity.desc&first_air_date.lte=' + today + '&vote_average.gte=6.5&vote_count.gte=50&region=RU'
-        },
-
-        // 📼 Классические советские и российские мультсериалы (для совместной классики можно оставить фильтры по 16 жанру)
+        // 📼 Классические советские мультсериалы
         {
             id: 'ru_classic_animation_tv',
             emoji: '📼',
@@ -307,15 +383,15 @@
         },
         
         // --- 📺 Originals ---
-        { id: 'okko_platform', emoji: '📺', name_key: 'tmdb_mod_c_okko', request: 'discover/tv?language=ru&with_networks=3871&sort_by=first_air_date.desc' }, 
-        { id: 'premier_platform', emoji: '📺', name_key: 'tmdb_mod_c_premier', request: 'discover/tv?language=ru&with_networks=2859&sort_by=first_air_date.desc' }, 
-        { id: 'start_platform', emoji: '📺', name_key: 'tmdb_mod_c_start', request: 'discover/tv?language=ru&with_networks=2493&sort_by=first_air_date.desc' }, 
-        { id: 'wink_platform', emoji: '📺', name_key: 'tmdb_mod_c_wink', request: 'discover/tv?language=ru&with_networks=5806&sort_by=first_air_date.desc' }, 
-        { id: 'kion_platform', emoji: '📺', name_key: 'tmdb_mod_c_kion', request: 'discover/tv?language=ru&with_networks=4085&sort_by=first_air_date.desc' }, 
-        { id: 'kinopoisk_platform', emoji: '📺', name_key: 'tmdb_mod_c_kinopoisk', request: 'discover/tv?language=ru&with_networks=3827&sort_by=first_air_date.desc' }, 
-        { id: 'cts_platform', emoji: '📺', name_key: 'tmdb_mod_c_cts', request: 'discover/tv?language=ru&with_networks=806&sort_by=first_air_date.desc' }, 
-        { id: 'tnt_platform', emoji: '📺', name_key: 'tmdb_mod_c_tnt', request: 'discover/tv?language=ru&with_networks=1191&sort_by=first_air_date.desc' }, 
-        { id: 'ivi_platform', emoji: '📺', name_key: 'tmdb_mod_c_ivi', request: 'discover/tv?language=ru&with_networks=3923&sort_by=first_air_date.desc' } 
+        { id: 'okko_platform',     emoji: '📺', name_key: 'tmdb_mod_c_okko',      request: 'discover/tv?language=ru&with_networks=3871&sort_by=first_air_date.desc' }, 
+        { id: 'premier_platform',  emoji: '📺', name_key: 'tmdb_mod_c_premier',   request: 'discover/tv?language=ru&with_networks=2859&sort_by=first_air_date.desc' }, 
+        { id: 'start_platform',    emoji: '📺', name_key: 'tmdb_mod_c_start',     request: 'discover/tv?language=ru&with_networks=2493&sort_by=first_air_date.desc' }, 
+        { id: 'wink_platform',     emoji: '📺', name_key: 'tmdb_mod_c_wink',      request: 'discover/tv?language=ru&with_networks=5806&sort_by=first_air_date.desc' }, 
+        { id: 'kion_platform',     emoji: '📺', name_key: 'tmdb_mod_c_kion',      request: 'discover/tv?language=ru&with_networks=4085&sort_by=first_air_date.desc' }, 
+        { id: 'kinopoisk_platform',emoji: '📺', name_key: 'tmdb_mod_c_kinopoisk', request: 'discover/tv?language=ru&with_networks=3827&sort_by=first_air_date.desc' }, 
+        { id: 'cts_platform',      emoji: '📺', name_key: 'tmdb_mod_c_cts',       request: 'discover/tv?language=ru&with_networks=806&sort_by=first_air_date.desc' }, 
+        { id: 'tnt_platform',      emoji: '📺', name_key: 'tmdb_mod_c_tnt',       request: 'discover/tv?language=ru&with_networks=1191&sort_by=first_air_date.desc' }, 
+        { id: 'ivi_platform',      emoji: '📺', name_key: 'tmdb_mod_c_ivi',       request: 'discover/tv?language=ru&with_networks=3923&sort_by=first_air_date.desc' } 
     ];
 
     // Настройки по умолчанию
@@ -387,7 +463,7 @@
             tmdb_mod_c_best_last_y: { ru: "Лучшие фильмы " + lastYear + " года" },
             tmdb_mod_c_animation: { ru: "Лучшие мультфильмы" },
 
-            tmdb_mod_c_ru_modern_animation_all: { ru: "Российские мультфильмы и мультсериалы" },
+            tmdb_mod_c_ru_modern_animation_all: { ru: "Российские мультфильмы" },
             tmdb_mod_c_ru_classic_animation_all: { ru: "Классические советские и российские мультфильмы и мультсериалы" },
             tmdb_mod_c_ru_popular_comedy: { ru: "Популярные комедии на русском" },
 
@@ -397,17 +473,20 @@
             // --- Сериалы ---
             tmdb_mod_c_trend_tv: { ru: "Топ сериалов недели" },
             tmdb_mod_c_world_hits: { ru: "Хиты сериалов мира 2020+" },
+
+            tmdb_mod_c_netflix_new_movies: { ru: "Новинки фильмов Netflix" },
+            tmdb_mod_c_netflix_new_tv: { ru: "Новинки сериалов Netflix" },
             tmdb_mod_c_netflix: { ru: "Хиты сериалов Netflix" },
+
             tmdb_mod_c_miniseries: { ru: "Лучшие Мини-сериалы" },
             tmdb_mod_c_rus_series: { ru: "Лучшие русскоязычные сериалы 2020+" },
 
-            tmdb_mod_c_ru_tv_programs: { ru: "Российские ТВ-программы" },
             tmdb_mod_c_world_tv_programs: { ru: "Популярные мировые ТВ-программы" },
 
             tmdb_mod_c_ru_new_tv: { ru: "Новинки русских сериалов" },
+            tmdb_mod_c_ru_new_tv_programs: { ru: "Новинки российских ТВ-программ" },
 
-            tmdb_mod_c_ru_popular_comedy_tv: { ru: "Популярные русские комедийные сериалы" },
-            tmdb_mod_c_ru_classic_animation_tv: { ru: "Классические советские и российские мультсериалы" },
+            tmdb_mod_c_ru_classic_animation_tv: { ru: "Классические советские мультсериалы" },
 
             // --- Платформы ---
             tmdb_mod_c_okko: { ru: "ОККО Originals" },
